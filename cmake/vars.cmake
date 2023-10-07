@@ -12,6 +12,14 @@ set(TIKTOKEN_PRIVATE_HEADERS
     tiktoken/include/tiktoken.h
 )
 
+set(TIKTOKEN_PUBLIC_HEADERS
+    tiktoken/include/tiktoken.h
+    tiktoken/include/global_define.h
+    tiktoken/include/token_encoding.h
+    tiktoken/include/model.h
+    tiktoken/include/registry.h
+)
+
 set(TIKTOKEN_COMMON_HEADERS
     common/Utf8String.h
     common/ScopeGuard.h

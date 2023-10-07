@@ -13,9 +13,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_STANDARD 20)
 
 # 指定版本号的配置文件
-#configure_file(include/TutorialConfig.h.in TutorialConfig.h)
 
-#message(STATUS "CMAKE_MODULE_PATH=${CMAKE_MODULE_PATH}")
 
 option(BUILD_TIKTOKEN_STATIC "build static tiktoken library" ON)
 option(BUILD_TIKTOKEN_SHARED "build shared tiktoken library" OFF)
@@ -129,16 +127,10 @@ endif()
 enum_source_directories(LIBTIKTOKEN_SRCS ${LIBTIKTOKEN_SRCDIR})
 set(LIBTIKTOKEN_SRCS ${LIBTIKTOKEN_SRCS} ${TIKTOKEN_COMMON_SRCS})
 
-message(STATUS "LIBTIKTOKEN_SRCS=${LIBTIKTOKEN_SRCS}")
-message(STATUS "EXTRA_LIBS=${EXTRA_LIBS}")
-message(STATUS "DESTINATION=${DESTINATION}")
-
 
 #if(BUILD_TIKTOKEN_STATIC)
     add_library(tiktoken STATIC ${LIBTIKTOKEN_SRCS})
-    #target_compile_definitions(hv_static PUBLIC HV_STATICLIB)     
-    #target_compile_features(tiktoken PRIVATE cxx_std_20)
-    #target_compile_options(tiktoken PRIVATE -Wall -Wextra)       
+  
     target_compile_definitions(tiktoken PRIVATE -DPCRE2_STATIC -DPCRE2_CODE_UNIT_WIDTH=8)  
 
     target_include_directories(tiktoken PRIVATE ${LIBTIKTOKEN_HEADERDIR})  
@@ -149,20 +141,11 @@ message(STATUS "DESTINATION=${DESTINATION}")
     target_include_directories(tiktoken PRIVATE ${CPPCODEC_PATH})     
     
     target_link_libraries(tiktoken ${EXTRA_LIBS}) 
-    #target_link_libraries(tiktoken CURL::libcurl)   
-    #target_link_libraries(tiktoken Iconv::Iconv)
-    #target_link_libraries(tiktoken ${PCRE2_LIBRARIES})   
     
     set(TIKTOKEN_LIBRARIES tiktoken ${EXTRA_LIBS} CACHE INTERNAL "link tiktoken libraries")
     
     install(TARGETS tiktoken ARCHIVE DESTINATION lib/tiktoken)    
 #endif()
-
-    #target_link_libraries(tiktoken ${CURL_LIBRARIES})                       
-    #target_link_libraries(tiktoken ${CURL_LIBRARY})   
-    #target_link_libraries(tiktoken Boost::regex)    
-    #target_link_libraries(tiktoken PCRE2::8BIT)   
-
 
 #if(BUILD_TIKTOKEN_SHARED)
     set(TIKTOKEN_LIBRARIES tiktoken CACHE INTERNAL "link tiktoken libraries")
@@ -174,33 +157,16 @@ if(BUILD_TOKEN_TEST)
     add_executable(token_test ${TOKEN_TEST_SRCS} ${TOKENTEST_COMMON_SRCS})
     
     target_compile_definitions(token_test PRIVATE -DTIKTOKEN_STATICLIB)     
-    #add_definitions(-DTIKTOKEN_STATICLIB)
 
     target_include_directories(token_test PRIVATE ${COMMON_DIR})
     target_include_directories(token_test PRIVATE ${LIBTIKTOKEN_HEADERDIR})    
     
     target_link_libraries(token_test ${TIKTOKEN_LIBRARIES})  
-    #target_link_directories(token_test PUBLIC libtiktoken)   
     
     install(TARGETS token_test RUNTIME DESTINATION bin)    
 endif()
 
-
-
-#INSTALL(TARGETS ${targets}
-#        RUNTIME DESTINATION bin
-#        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-#        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR})
-#INSTALL(FILES ${pkg_config_files} DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig)
-#INSTALL(FILES "${CMAKE_CURRENT_BINARY_DIR}/pcre2-config"
-#  DESTINATION bin
-#  # Set 0755 permissions
-#  PERMISSIONS OWNER_WRITE OWNER_READ OWNER_EXECUTE GROUP_READ GROUP_EXECUTE WORLD_READ WORLD_EXECUTE)
-
-#INSTALL(FILES ${PCRE2_HEADERS} ${PCRE2POSIX_HEADERS} DESTINATION include)
 install(FILES ${TIKTOKEN_PUBLIC_HEADERS} DESTINATION include/tiktoken)
-#install(EXPORT libhvConfig DESTINATION lib/cmake/libhv)
-
 
 if(INSTALL_ENCODING_FILES)
 FILE(GLOB ENCODING_FILES ${PROJECT_SOURCE_DIR}/${ENCODING_FILE_DIR}/*.tiktoken)
@@ -218,8 +184,5 @@ install(FILES ${TIKTOKEN_CONFIG_OUT} ${TIKTOKEN_CONFIG_VERSION_OUT} DESTINATION 
 
 
 
-
-#install(TARGETS target CONFIGURATIONS Debug RUNTIME DESTINATION Debug/bin)
-#install(TARGETS target CONFIGURATIONS Release RUNTIME DESTINATION Release/bin)
 
 

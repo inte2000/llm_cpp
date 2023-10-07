@@ -1,6 +1,27 @@
-find_path(TIKTOKEN_INCLUDE_DIR libadd.h /usr/include/ /usr/local/include ${CMAKE_SOURCE_DIR}/ModuleMode)
-find_library(TIKTOKEN_LIBRARY NAMES tiktoken PATHS /usr/lib/tiktoken /usr/local/lib/tiktoken ${CMAKE_SOURCE_DIR}/ModuleMode)
+include(SelectLibraryConfigurations)
+include(CMakeFindDependencyMacro)
 
-if (TIKTOKEN_INCLUDE_DIR AND TIKTOKEN_LIBRARY)
-    set(TIKTOKEN_FOUND TRUE)
-endif (TIKTOKEN_INCLUDE_DIR AND TIKTOKEN_LIBRARY)
+set(TIKTOKEN_USE_STATIC_LIBS @BUILD_TIKTOKEN_STATIC@)
+set(TIKTOKEN_USE_SHARED_LIBS @BUILD_TIKTOKEN_SHARED@)
+set(TIKTOKEN_STATIC_LIBRARIES @TIKTOKEN_LIBRARIES@)
+
+find_path(TIKTOKEN_INCLUDE_DIR tiktoken/tiktoken.h /usr/include/ /usr/local/include ${CMAKE_SOURCE_DIR}/ModuleMode)
+
+if(TIKTOKEN_USE_STATIC_LIBS)
+    find_library(TIKTOKEN_LIBRARY NAMES tiktoken PATHS /usr/lib/tiktoken /usr/local/lib/tiktoken ${CMAKE_SOURCE_DIR}/ModuleMode)
+    if(WIN32)
+        find_library(TIKTOKEN_LIBRARY NAMES tiktoken.dll PATHS ${CMAKE_SOURCE_DIR}/ModuleMode)
+    endif()
+endif()
+
+find_dependency(CURL REQUIRED)
+find_dependency(Iconv REQUIRED)
+find_dependency(PCRE2 COMPONENTS 8BIT)
+
+if (NOT TIKTOKEN_LIBRARY)
+    set(TIKTOKEN_FOUND FALSE)
+    return()
+endif()
+
+set(TIKTOKEN_FOUND TRUE)
+

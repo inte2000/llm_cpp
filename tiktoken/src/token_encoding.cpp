@@ -16,9 +16,9 @@
 namespace TiktokenCpp
 {
     //get max token value from special tikens
-    std::size_t GetMaxSpecialTokenValue(const StrViewToInt& tokens)
+    std::uint32_t GetMaxSpecialTokenValue(const StrViewToInt& tokens)
     {
-        std::size_t value = std::numeric_limits<std::size_t>::min();
+        std::size_t value = std::numeric_limits<std::uint32_t>::min();
         for (const auto& tk : tokens)
         {
             if (tk.second > value)
@@ -29,10 +29,10 @@ namespace TiktokenCpp
     }
 
     //get max token value from encoding map
-    std::size_t GetMaxTokenValue(const encode_dict* pDict)
+    std::uint32_t GetMaxTokenValue(const encode_dict* pDict)
     {
         assert(pDict != nullptr);
-        std::size_t value = pDict->size();
+        std::uint32_t value = static_cast<std::uint32_t>(pDict->size());
         if (value != 0)
             value -= 1;
         return value;
@@ -80,7 +80,7 @@ namespace TiktokenCpp
     {
     }
 
-    std::vector<int32_t> TikToken::EncodeOrdinary(const std::string& utf8Text)
+    std::vector<uint32_t> TikToken::EncodeOrdinary(const std::string& utf8Text)
     {
         try 
         {
@@ -94,7 +94,7 @@ namespace TiktokenCpp
         }
     }
 
-    std::vector<int32_t> TikToken::Encode(const std::string& utf8Text,
+    std::vector<uint32_t> TikToken::Encode(const std::string& utf8Text,
                                           StringSetUnion allowedSpecial, StringSetUnion disallowedSpecial)
     {
         StringSet allowedSpecialSet, disallowedSpecialSet; //null set
@@ -142,7 +142,7 @@ namespace TiktokenCpp
         }
     }
 
-    std::string TikToken::Decode(const std::vector<int32_t>& tokens)
+    std::string TikToken::Decode(const std::vector<uint32_t>& tokens)
     {
         std::string result;
         result.reserve(tokens.size() * 8);
@@ -154,12 +154,12 @@ namespace TiktokenCpp
         return result;
     }
 
-    std::string TikToken::TokenToSymbol(int32_t token) const
+    std::string TikToken::TokenToSymbol(uint32_t token) const
     { 
         return m_corebpe->TokenToSymbol(token);
     }
 
-    std::vector<std::string> TikToken::TokenToSymbols(const std::vector<int32_t>& tokens) const
+    std::vector<std::string> TikToken::TokenToSymbols(const std::vector<uint32_t>& tokens) const
     {
         std::vector<std::string> result;
         result.reserve(tokens.size());

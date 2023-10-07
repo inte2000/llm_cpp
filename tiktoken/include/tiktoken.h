@@ -11,6 +11,11 @@ namespace TiktokenCpp
     //list current encoding
     std::vector<std::string_view> ListEncodingNames();
 
+    //is local cache existed this encoding file
+    bool IsLocalEncodingCacheExisted(const std::string_view& encoding_name);
+
+    std::string GetCachedEncodingFileLocation();
+
     //get an encoding object by encoding name
     std::unique_ptr<TikToken> GetEncoding(const std::string_view& encoding_name);
 

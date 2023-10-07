@@ -9,7 +9,7 @@
 namespace TiktokenCpp
 {
     class CoreBpe;
-
+    
     class TikToken final
     {
     public:
@@ -18,21 +18,21 @@ namespace TiktokenCpp
         ~TikToken();
         TikToken& operator=(const TikToken& token) = delete;
 
-        std::vector<int32_t> EncodeOrdinary(const std::string& utf8Text);
-        std::vector<int32_t> Encode(const std::string& utf8Text,
+        std::vector<uint32_t> EncodeOrdinary(const std::string& utf8Text);
+        std::vector<uint32_t> Encode(const std::string& utf8Text,
                                     StringSetUnion allowedSpecial = StringSet{},
                                     StringSetUnion disallowedSpecial = "all");
         
-        std::string Decode(const std::vector<int32_t>& tokens);
-        std::string TokenToSymbol(int32_t token) const;
-        std::vector<std::string> TokenToSymbols(const std::vector<int32_t>& tokens) const;
+        std::string Decode(const std::vector<uint32_t>& tokens);
+        std::string TokenToSymbol(uint32_t token) const;
+        std::vector<std::string> TokenToSymbols(const std::vector<uint32_t>& tokens) const;
         
         std::string_view GetName() const { return m_name; }
     protected:
     private:
         std::unique_ptr<CoreBpe> m_corebpe;
         StringSet m_SpecialTokensSet;
-        std::size_t m_maxTokenValue = 0;
+        std::uint32_t m_maxTokenValue = 0;
         std::string_view m_name;
     };
 

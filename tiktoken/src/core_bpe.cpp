@@ -27,7 +27,7 @@ namespace TiktokenCpp
             [this](const auto& mi) { m_specialTokensDecoder.emplace(mi.second, mi.first); });
     }
 
-    std::string CoreBpe::TokenToSymbol(int32_t token)
+    std::string CoreBpe::TokenToSymbol(uint32_t token)
     {
         if (m_decoder == nullptr)
             m_decoder = InitDecodeDict();
@@ -42,9 +42,9 @@ namespace TiktokenCpp
         return symbol;
     }
 
-    std::vector<int32_t> CoreBpe::EncodeOrdinaryNative(const std::string& utf8Text)
+    std::vector<uint32_t> CoreBpe::EncodeOrdinaryNative(const std::string& utf8Text)
     {
-        std::vector<int32_t> tokens;
+        std::vector<uint32_t> tokens;
         std::vector<std::string> words = Utf8WordsSpliter(utf8Text);
         for (const auto& word : words)
         {
@@ -57,7 +57,7 @@ namespace TiktokenCpp
             }
             else
             {
-                std::vector<int32_t> word_tokens = BytePairEncode(word_bytes);
+                std::vector<uint32_t> word_tokens = BytePairEncode(word_bytes);
                 /*
                 tokens.insert(tokens.end(), std::make_move_iterator(word_tokens.begin()),
                     std::make_move_iterator(word_tokens.end()));
@@ -70,9 +70,9 @@ namespace TiktokenCpp
     }
 
     //todo: 
-    std::vector<int32_t> CoreBpe::EncodeOrdinaryNative(const std::wstring& utf16Text)
+    std::vector<uint32_t> CoreBpe::EncodeOrdinaryNative(const std::wstring& utf16Text)
     {
-        std::vector<int32_t> tokens;
+        std::vector<uint32_t> tokens;
 
         return tokens;
     }
@@ -80,8 +80,6 @@ namespace TiktokenCpp
     std::optional<std::tuple<std::size_t, std::size_t, std::string>>
     FindFirstSpecialPosition(const std::string& utf8Text, const Utf8StringSet& allowedSpecial, const Pcre2::CPcre2OVector& overtor)
     {
-        std::size_t posIdx = -1;
-
         for (const auto& mat : overtor)
         {
             if (allowedSpecial.contains(utf8Text.substr(mat.start, mat.end - mat.start)))
@@ -93,12 +91,11 @@ namespace TiktokenCpp
         return std::nullopt;
     }
 
-    std::vector<int32_t> CoreBpe::EncodeNative(const std::string& utf8Text, const Utf8StringSet& allowedSpecial)
+    std::vector<uint32_t> CoreBpe::EncodeNative(const std::string& utf8Text, const Utf8StringSet& allowedSpecial)
     {
-        std::vector<int32_t> tokens;
+        std::vector<uint32_t> tokens;
         
         std::size_t start = 0;
-        int lastPieceTokenLen = 0;
         while (true)
         {
             Pcre2::CPcre2MatchData nextSpecial = m_SpecialRegex.CreateMatchDataFromPattern();
@@ -130,7 +127,7 @@ namespace TiktokenCpp
                 }
                 else
                 {
-                    std::vector<int32_t> word_tokens = BytePairEncode(word_bytes);
+                    std::vector<uint32_t> word_tokens = BytePairEncode(word_bytes);
                     std::move(word_tokens.begin(), word_tokens.end(), std::back_inserter(tokens));
                 }
             }
@@ -150,21 +147,21 @@ namespace TiktokenCpp
     }
 
     //todo: 
-    std::vector<int32_t> CoreBpe::EncodeNative(const std::wstring& utf16Text, const Utf8StringSet& allowedSpecial)
+    std::vector<uint32_t> CoreBpe::EncodeNative(const std::wstring& utf16Text, const Utf8StringSet& allowedSpecial)
     {
-        std::vector<int32_t> tokens;
-
+        std::vector<uint32_t> tokens;
+        
         return tokens;
     }
 
-    std::vector<std::string> CoreBpe::DecodeNative(const std::vector<int32_t>& tokens)
+    std::vector<std::string> CoreBpe::DecodeNative(const std::vector<uint32_t>& tokens)
     {
         if (m_decoder == nullptr)
             m_decoder = InitDecodeDict();
 
         std::vector<std::string> words;
         words.reserve(tokens.size());
-        for (const int32_t& token : tokens)
+        for (const uint32_t& token : tokens)
         {
             auto it = m_decoder->find(token);
             if (it != m_decoder->end())
@@ -223,7 +220,7 @@ namespace TiktokenCpp
         return parts;
     }
 
-    std::vector<int32_t> CoreBpe::BytePairMerge(const std::vector<uint8_t>& piece, std::function<int32_t(std::pair<size_t, size_t>)> f)
+    std::vector<uint32_t> CoreBpe::BytePairMerge(const std::vector<uint8_t>& piece, std::function<uint32_t(std::pair<size_t, size_t>)> f)
     {
         std::vector<std::pair<size_t, size_t>> parts = InitParts(piece.size());
 
@@ -256,7 +253,7 @@ namespace TiktokenCpp
 
             for (size_t i = 0; i < parts.size() - 1; ++i)
             {
-                auto [_, rank] = parts[i];
+                [[maybe_unused]] auto [_, rank] = parts[i];
                 if (rank < min_rank)
                 {
                     min_rank = rank;
@@ -281,7 +278,7 @@ namespace TiktokenCpp
             }
         }
 
-        std::vector<int32_t> out;
+        std::vector<uint32_t> out;
         for (size_t i = 0; i < parts.size() - 1; ++i)
         {
             out.push_back(f({ parts[i].first, parts[i + 1].first }));
@@ -290,7 +287,7 @@ namespace TiktokenCpp
         return out;
     }
 
-    std::vector<int32_t> CoreBpe::BytePairEncode(const std::vector<uint8_t>& piece)
+    std::vector<uint32_t> CoreBpe::BytePairEncode(const std::vector<uint8_t>& piece)
     {
         if (piece.size() == 1) {
             return { m_encoder->at(piece) };

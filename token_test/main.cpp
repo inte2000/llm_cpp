@@ -9,7 +9,7 @@
 using namespace std::literals;
 using namespace TiktokenCpp;
 
-std::ostream& PrintTokens(std::ostream& os, const std::vector<int32_t>& tokens)
+std::ostream& PrintTokens(std::ostream& os, const std::vector<uint32_t>& tokens)
 {
     os << "[";
     for (std::size_t i = 0; i < tokens.size(); i++)
@@ -42,24 +42,25 @@ std::ostream& PrintSymbols(std::ostream& os, const std::vector<std::string>& sym
 
 int main()
 {
+    std::cout << "Current encoding cache location: " << GetCachedEncodingFileLocation() << std::endl;
     //Enumerate and download encoding files to local cache
-#if 0
     try
     {
-        std::string_view proxy = "..."; //proxy, if needed
         auto encodingnames = ListEncodingNames();
         for (const auto& name : encodingnames)
         {
-            std::cout << "Downloading encoding file for " << name << "...";
-            bool rtn = DownloadEncoding(name, proxy);
-            std::cout << (rtn ? "successfully!" : "failed!") << std::endl;
+            if(!IsLocalEncodingCacheExisted(name))
+            {
+		std::cout << "Downloading encoding file for " << name << "...";
+		bool rtn = DownloadEncoding(name); //DownloadEncoding(name, proxy);
+		std::cout << (rtn ? "successfully!" : "failed!") << std::endl;
+            }
         }
     }
     catch (...)
     {
         std::cout << "Downloading exception occured" << std::endl;
     }
-#endif
 
     //Testing data:
     std::vector<std::string> texts = {
@@ -71,7 +72,7 @@ int main()
         {""}
     };
     
-    std::vector < std::vector<int32_t>> tokens = { 
+    std::vector < std::vector<uint32_t>> tokens = { 
         {15339, 1917}, 
         {19045, 29474, 1917}, 
         {83, 1609, 5963, 374, 2294, 0}, 
@@ -87,7 +88,6 @@ int main()
     //std::string tes = "Hello, 中国 😀";
     //std::string lotes = LocalMBCSFromUTF8Str(tes);
     //std::cout << lotes << std::endl;
-    // 
     //For ordinary text, using quick function
     for (std::size_t i = 0; i < texts.size(); i++)
     {
@@ -109,7 +109,7 @@ int main()
     //allowedSpecial: "all" , disallowedSpecial: "all" (default)
     auto enc = encoding->Encode(text, "all"); 
     PrintTokens(std::cout, enc);
-    std::vector<int32_t> spec1{ 15339, 220, 100257 };
+    std::vector<uint32_t> spec1{ 15339, 220, 100257 };
     assert(enc == spec1);
     auto dec = encoding->Decode(enc);
     assert(dec == text);
@@ -144,7 +144,7 @@ int main()
     PrintSymbols(std::cout, symbols);
 
     //decode speed test
-    std::vector < std::vector<int32_t>> dec_tokens = { 
+    std::vector < std::vector<uint32_t>> dec_tokens = { 
         {15339, 1917}, {19045, 29474, 1917},
         {83, 1609, 5963, 374, 2294, 0}, 
         {13347, 3922, 42421, 15120, 17297, 16325, 17161, 49491, 6447},

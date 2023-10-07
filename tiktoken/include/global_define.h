@@ -35,11 +35,11 @@ namespace TiktokenCpp
     using StringSet = std::set<std::string>;
     using StringSetUnion = std::variant<std::string_view, StringSet>;
 
-    using Utf8StrToInt = std::unordered_map<std::string, int32_t>;
-    using StrViewToInt = std::unordered_map<std::string_view, int32_t>;
+    using Utf8StrToInt = std::unordered_map<std::string, uint32_t>;
+    using StrViewToInt = std::unordered_map<std::string_view, uint32_t>;
 
-    using encode_dict = std::unordered_map<std::vector<uint8_t>, int32_t>;
-    using decode_dict = std::unordered_map<int32_t, std::string>;
+    using encode_dict = std::unordered_map<std::vector<uint8_t>, uint32_t>;
+    using decode_dict = std::unordered_map<uint32_t, std::string>;
 
 }
 

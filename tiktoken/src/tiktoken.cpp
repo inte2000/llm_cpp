@@ -22,6 +22,19 @@ namespace TiktokenCpp
         return names;
     }
 
+    bool IsLocalEncodingCacheExisted(const std::string_view& encoding_name)
+    {
+        std::string filename = std::string(encoding_name) + ".tiktoken";
+        stdfs::path path = GetCacheFileFullPath(filename);
+
+        return stdfs::exists(path);
+    }
+
+    std::string GetCachedEncodingFileLocation()
+    {
+        return GetCachePathName();
+    }
+
     std::unique_ptr<TikToken> GetEncoding(const std::string_view& encoding_name)
     {
         const EncodingParam& param = Registry::GetEncodingParam(encoding_name);

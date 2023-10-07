@@ -25,7 +25,7 @@ std::basic_string<CT> UTFStrFromLocalMBCS(const char *coder, const std::string& 
         char* pTmp = szTmp;
         std::size_t outRemain = LOCAL_BUF_SIZE;
         std::size_t rtn = iconv(cd, (char**)&pSource, &inRemain, &pTmp, &outRemain);
-        if (outRemain == LOCAL_BUF_SIZE)
+        if ((rtn == static_cast<std::size_t>(-1)) || (outRemain == LOCAL_BUF_SIZE))
             break;
 
         output.append((CT*)szTmp, (CT*)pTmp);
@@ -54,7 +54,7 @@ std::string LocalMBCSFromUTFStr(const char* coder, const std::basic_string<CT>& 
         char* pTmp = szTmp;
         std::size_t outRemain = LOCAL_BUF_SIZE;
         std::size_t rtn = iconv(cd, (char**)&pSource, &inRemain, &pTmp, &outRemain);
-        if (outRemain == LOCAL_BUF_SIZE)
+        if ((rtn == static_cast<std::size_t>(-1)) || (outRemain == LOCAL_BUF_SIZE))
             break;
 
         output.append(szTmp, pTmp);
