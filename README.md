@@ -2,10 +2,10 @@
 
 English | [简体中文](README_zh.md)
 
-[![Linux](https://badgen.net/badge/Linux/success/green?icon=github)](https://github.com/inte2000/TabSiPlus/actions/workflows/CI.yml?query=branch%3Amaster)
-[![Windows](https://badgen.net/badge/Windows/success/green?icon=github)](https://github.com/inte2000/TabSiPlus/actions/workflows/CI.yml?query=branch%3Amaster)
-[![issues](https://badgen.net/github/issues/nte2000/TabSiPlus(https://github.com/inte2000/TabSiPlus)?icon=github)](https://github.com/inte2000/TabSiPlus/issues)
-[![license](https://badgen.net/github/license/inte2000/TabSiPlus?icon=github)](LICENSE)
+[![Linux](https://badgen.net/badge/Linux/success/green?icon=github)](https://github.com/inte2000/llm_cpp/actions/workflows/CI.yml?query=branch%3Amaster)
+[![Windows](https://badgen.net/badge/Windows/success/green?icon=github)](https://github.com/inte2000/llm_cpp/actions/workflows/CI.yml?query=branch%3Amaster)
+[![issues](https://github.com/inte2000/llm_cpp?icon=github)](https://github.com/inte2000/llm_cpp/issues)
+[![license](https://badgen.net/github/license/inte2000/llm_cpp?icon=github)](LICENSE)
 
 
 
