@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Label="UserMacros">
+    <BOOST_ROOT>D:\development\boost-1.83.0\stage</BOOST_ROOT>
+    <BOOST_VER>1_83</BOOST_VER>
+    <DBG_LIB_POSTFIX>vc$(PlatformToolsetVersion)-mt-gd-$(PlatformTarget)-$(BOOST_VER)</DBG_LIB_POSTFIX>
+    <REL_LIB_POSTFIX>vc$(PlatformToolsetVersion)-mt-$(PlatformTarget)-$(BOOST_VER)</REL_LIB_POSTFIX>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <Link>
+      <AdditionalDependencies Condition="'$(Configuration)' == 'Debug' OR '$(Configuration)' == 'UnicodeDebug'">libboost_regex-$(DBG_LIB_POSTFIX).lib;libboost_type_erasure-$(DBG_LIB_POSTFIX).lib;libboost_system-$(DBG_LIB_POSTFIX).lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies Condition="'$(Configuration)' == 'Release' OR '$(Configuration)' == 'UnicodeRelease'">libboost_regex-$(REL_LIB_POSTFIX).lib;libboost_type_erasure-$(REL_LIB_POSTFIX).lib;libboost_system-$(REL_LIB_POSTFIX).lib;%(AdditionalDependencies)</AdditionalDependencies>
+
+      <AdditionalLibraryDirectories>$(BOOST_ROOT)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(BOOST_ROOT)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <BuildMacro Include="BOOST_ROOT">
+      <Value>$(BOOST_ROOT)</Value>
+      <EnvironmentVariable>true</EnvironmentVariable>
+    </BuildMacro>
+    <BuildMacro Include="BOOST_VER">
+      <Value>$(BOOST_VER)</Value>
+      <EnvironmentVariable>true</EnvironmentVariable>
+    </BuildMacro>
+    <BuildMacro Include="DBG_LIB_POSTFIX">
+      <Value>$(DBG_LIB_POSTFIX)</Value>
+      <EnvironmentVariable>true</EnvironmentVariable>
+    </BuildMacro>
+    <BuildMacro Include="REL_LIB_POSTFIX">
+      <Value>$(REL_LIB_POSTFIX)</Value>
+      <EnvironmentVariable>true</EnvironmentVariable>
+    </BuildMacro>  
+  </ItemGroup>
+</Project>
