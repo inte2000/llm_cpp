@@ -167,6 +167,6 @@ Then you only need to modify ` PCRE2_ ROOT ` macro, replace it with the root dir
 
 Otherwise, it is necessary to modify the 'AdditionalLibraryDirectories' property simultaneously to make it consistent with the directory structure of the local installation.
 
-​        Open "d:\code\llm_cpp\vsprj\llm_cpp.sln" using Visual Studio 2019 and compile the tiktoken and tokent_est projects in sequence.  
+​        Open "d:\code\llm_cpp\vsprj\llm_cpp.sln" using Visual Studio 2019 and compile the tiktoken and tokent_test projects in sequence.  
 
 ​        Compiling and running token_test on the Windows platform needs to pay attention to the encoding issue of the source code file. TiktokenCpp uses UTF-8 as the input text encoding. Compiling and running token_test or your own testing program on the Windows platform, it is important to note that the source code files should use UTF-8 encoding. Otherwise, you will need to convert the platform's local encoding to UTF-8. ` Utf8String. h ' provides two functions: ' UTF8StrFromLocalMBCS' and 'LocalMBCSFromUTF8Str', which automatically determine the platform's coding-set and provide corresponding conversion functions.

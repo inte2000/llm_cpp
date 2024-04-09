@@ -5,6 +5,7 @@
 #include <variant>
 #include <set>
 #include <unordered_map>
+#include <cstdint>
 
 template<>
 struct std::hash<std::vector<uint8_t>>
