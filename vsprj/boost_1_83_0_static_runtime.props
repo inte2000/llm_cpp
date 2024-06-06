@@ -8,8 +8,8 @@
   </PropertyGroup>
   <ItemDefinitionGroup>
     <Link>
-      <AdditionalDependencies Condition="'$(Configuration)' == 'Debug' OR '$(Configuration)' == 'UnicodeDebug'">libboost_regex-$(DBG_LIB_POSTFIX).lib;libboost_type_erasure-$(DBG_LIB_POSTFIX).lib;libboost_system-$(DBG_LIB_POSTFIX).lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalDependencies Condition="'$(Configuration)' == 'Release' OR '$(Configuration)' == 'UnicodeRelease'">libboost_regex-$(REL_LIB_POSTFIX).lib;libboost_type_erasure-$(REL_LIB_POSTFIX).lib;libboost_system-$(REL_LIB_POSTFIX).lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies Condition="'$(Configuration)' == 'Debug' OR '$(Configuration)' == 'UnicodeDebug'">libboost_regex-$(DBG_LIB_POSTFIX).lib;libboost_type_erasure-$(DBG_LIB_POSTFIX).lib;libboost_filesystem-$(DBG_LIB_POSTFIX).lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies Condition="'$(Configuration)' == 'Release' OR '$(Configuration)' == 'UnicodeRelease'">libboost_regex-$(REL_LIB_POSTFIX).lib;libboost_type_erasure-$(REL_LIB_POSTFIX).lib;libboost_filesystem-$(REL_LIB_POSTFIX).lib;%(AdditionalDependencies)</AdditionalDependencies>
 
       <AdditionalLibraryDirectories>$(BOOST_ROOT)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>

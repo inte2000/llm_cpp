@@ -170,6 +170,11 @@ namespace Pcre2
         m_matchData = md;
     }
 
+    CPcre2MatchData::~CPcre2MatchData() noexcept
+    {
+        if (m_matchData != nullptr)
+            pcre2_match_data_free(m_matchData);
+    }
 
 
 

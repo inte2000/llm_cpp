@@ -1,5 +1,6 @@
 #include "sys_env.h"
 
+
 namespace TiktokenCpp
 {
     static SystemInit s_sysInit;

@@ -9,7 +9,7 @@
 namespace TiktokenCpp
 {
     class CoreBpe;
-    
+
     class TikToken final
     {
     public:

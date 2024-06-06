@@ -18,7 +18,7 @@ namespace TiktokenCpp
     //get max token value from special tikens
     std::uint32_t GetMaxSpecialTokenValue(const StrViewToInt& tokens)
     {
-        std::size_t value = std::numeric_limits<std::uint32_t>::min();
+        std::uint32_t value = std::numeric_limits<std::uint32_t>::min();
         for (const auto& tk : tokens)
         {
             if (tk.second > value)

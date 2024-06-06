@@ -51,9 +51,9 @@ int main()
         {
             if(!IsLocalEncodingCacheExisted(name))
             {
-		std::cout << "Downloading encoding file for " << name << "...";
-		bool rtn = DownloadEncoding(name); //DownloadEncoding(name, proxy);
-		std::cout << (rtn ? "successfully!" : "failed!") << std::endl;
+                std::cout << "Downloading encoding file for " << name << "...";
+                bool rtn = DownloadEncoding(name); //DownloadEncoding(name, proxy);
+                std::cout << (rtn ? "successfully!" : "failed!") << std::endl;
             }
         }
     }
@@ -117,7 +117,8 @@ int main()
     text = "<|endoftext|>";
     std::cout << "Encoding: \"" << text << "\", with allowedSpecial: <|endoftext|> , disallowedSpecial: all" << std::endl;
     //allowedSpecial: "<|endoftext|>" , disallowedSpecial: "all"
-    enc = encoding->Encode(text, AllowedSpecial{"<|endoftext|>"});
+    //enc = encoding->Encode(text, AllowedSpecial{"<|endoftext|>"});
+    enc = encoding->Encode(text, {"<|endoftext|>"});
     PrintTokens(std::cout, enc);
     spec1 = { 100257 };
     assert(enc == spec1);
@@ -127,7 +128,8 @@ int main()
     text = "<|endoftext|>";
     std::cout << "Encoding: \"" << text << "\", with allowedSpecial: null, disallowedSpecial: null" << std::endl;
     //allowedSpecial: null (default), disallowedSpecial: null
-    enc = encoding->Encode(text, AllowedSpecial{}, DisallowedSpecial{});
+    //enc = encoding->Encode(text, AllowedSpecial{}, DisallowedSpecial{});
+    enc = encoding->Encode(text, {}, {});
     PrintTokens(std::cout, enc);
     spec1 = { 27, 91, 8862, 728, 428, 91, 29 };
     assert(enc == spec1);

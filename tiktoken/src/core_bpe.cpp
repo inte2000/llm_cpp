@@ -150,7 +150,7 @@ namespace TiktokenCpp
     std::vector<uint32_t> CoreBpe::EncodeNative(const std::wstring& utf16Text, const Utf8StringSet& allowedSpecial)
     {
         std::vector<uint32_t> tokens;
-        
+
         return tokens;
     }
 

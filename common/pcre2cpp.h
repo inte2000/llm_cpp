@@ -10,6 +10,8 @@
 #endif
 #include <vector>
 #include <optional>
+
+#define PCRE2_CODE_UNIT_WIDTH 8
 #include "pcre2.h"
 
 namespace Pcre2
@@ -222,6 +224,11 @@ namespace Pcre2
     public:
         CPcre2MatchData(pcre2_match_data* md) : m_matchData(md) {}
         CPcre2MatchData(uint32_t ovecsize, std::optional<CPcre2GeneralContext> ctx = std::nullopt);
+        CPcre2MatchData(const CPcre2MatchData& md) = delete;
+        CPcre2MatchData(CPcre2MatchData&& md) noexcept = default;
+        CPcre2MatchData& operator=(const CPcre2MatchData& md) = delete;
+        CPcre2MatchData& operator=(CPcre2MatchData&& md) noexcept = default;
+        ~CPcre2MatchData() noexcept;
 
         CPcre2OVector GetOVectorPointer()
         {
